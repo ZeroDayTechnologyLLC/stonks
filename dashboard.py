@@ -1,5 +1,6 @@
 import streamlit as st
 from pathlib import Path
+from typing import Any, Optional
 
 from alerts import AlertManager
 from broker import PaperBroker, RobinhoodBroker
@@ -47,6 +48,7 @@ def main() -> None:
 
     account = broker.get_account_summary()
     trades = db.load_trade_history(limit=100)
+    cycle_summary: Optional[dict[str, Any]] = None
     if config.enable_live_trading:
         positions = broker.get_positions()
     else:
@@ -54,17 +56,14 @@ def main() -> None:
 
     st.sidebar.header("Controls")
     if st.sidebar.button("Run one scan cycle"):
-        trade_count_before = len(db.load_trade_history(limit=1000))
         with st.spinner("Running one trading cycle..."):
-            bot.run_cycle()
+            cycle_summary = bot.run_cycle()
         trades = db.load_trade_history(limit=100)
-        trade_count_after = len(db.load_trade_history(limit=1000))
-        new_trades = trade_count_after - trade_count_before
         account = broker.get_account_summary()
         positions = broker.get_positions() if config.enable_live_trading else db.load_open_trades()
 
-        if new_trades > 0:
-            st.success(f"Cycle complete. {new_trades} new trade(s) recorded.")
+        if cycle_summary and cycle_summary.get("trades_placed", 0) > 0:
+            st.success(f"Cycle complete. {cycle_summary['trades_placed']} new trade(s) recorded.")
         else:
             st.info("Cycle complete. No trades were placed this cycle.")
 

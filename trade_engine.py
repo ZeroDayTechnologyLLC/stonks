@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 import time
 from datetime import datetime, timedelta
-from typing import List, Optional
+from typing import Any, List, Optional
 
 from broker import Broker, PaperBroker, RobinhoodBroker
 from config import AppConfig
@@ -35,6 +35,7 @@ class TradingBot:
             max_position_pct=config.max_position_pct,
             daily_loss_limit_pct=config.daily_loss_limit_pct,
         )
+        self.last_cycle_summary: dict[str, Any] = {}
         available: dict[str, type[TradingStrategy]] = {
             "momentum_breakout": MomentumBreakoutStrategy,
         }
@@ -231,20 +232,59 @@ class TradingBot:
 
         self._monitor_positions()
         symbols = self.config.watchlist or self.config.supported_symbols
+        summary: dict[str, Any] = {
+            "evaluated": 0,
+            "trades_placed": 0,
+            "signals": [],
+            "paused": False,
+            "daily_limit_exceeded": False,
+        }
+
         for symbol in symbols:
+            summary["evaluated"] += 1
             signal = self._evaluate_symbol(symbol)
-            if not signal or signal.recommendation == "avoid":
+            if signal is None:
+                summary["signals"].append(
+                    {
+                        "symbol": symbol,
+                        "status": "no_data",
+                        "confidence": None,
+                        "recommendation": None,
+                        "reason": "missing quote or history",
+                    }
+                )
                 continue
+
+            detail: dict[str, Any] = {
+                "symbol": symbol,
+                "confidence": signal.confidence,
+                "recommendation": signal.recommendation,
+                "reason": signal.reason,
+            }
+
+            if signal.recommendation == "avoid":
+                detail["status"] = "avoid"
+                summary["signals"].append(detail)
+                continue
+
             if not self.risk_manager.should_trade(
                 account_value=account_value,
                 daily_loss_pct=0.0,
                 confidence=signal.confidence,
                 threshold=self.config.confidence_threshold,
             ):
+                detail["status"] = "threshold" if signal.confidence < self.config.confidence_threshold else "risk"
+                summary["signals"].append(detail)
                 continue
+
             self._place_trade(signal, account_value)
+            detail["status"] = "placed"
+            summary["signals"].append(detail)
+            summary["trades_placed"] += 1
 
         self._record_snapshot(account_value, buying_power, unrealized_pl, 0.0)
+        self.last_cycle_summary = summary
+        return summary
 
     def start(self) -> None:
         logger.info("Starting trading bot. Live trading=%s", self.config.enable_live_trading)

@@ -86,3 +86,43 @@
 2026-06-09 15:13:37 INFO market_data Market data found 0.08527 for DOGE-USD using coinbase
 2026-06-09 15:13:37 ERROR yfinance Failed to get ticker 'DOGE-USD' reason: Expecting value: line 1 column 1 (char 0)
 2026-06-09 15:13:37 ERROR yfinance $DOGE-USD: possibly delisted; No price data found  (period=30d)
+2026-06-09 15:14:53 ERROR yfinance Failed to get ticker 'BTC-USD' reason: Expecting value: line 1 column 1 (char 0)
+2026-06-09 15:14:54 ERROR yfinance $BTC-USD: possibly delisted; No price data found  (period=1d)
+2026-06-09 15:14:54 ERROR yfinance Failed to get ticker 'BTC-USD' reason: Expecting value: line 1 column 1 (char 0)
+2026-06-09 15:14:55 ERROR yfinance $BTC-USD: possibly delisted; No price data found  (period=1d)
+2026-06-09 15:14:56 ERROR yfinance Failed to get ticker 'BTC-USD' reason: Expecting value: line 1 column 1 (char 0)
+2026-06-09 15:14:59 ERROR yfinance $BTC-USD: possibly delisted; No price data found  (period=1d)
+2026-06-09 15:14:59 WARNING market_data Provider yfinance failed for BTC-USD
+2026-06-09 15:14:59 INFO market_data Market data found 62137.915 for BTC-USD using coinbase
+2026-06-09 15:14:59 ERROR yfinance Failed to get ticker 'BTC-USD' reason: Expecting value: line 1 column 1 (char 0)
+2026-06-09 15:15:00 ERROR yfinance $BTC-USD: possibly delisted; No price data found  (period=30d)
+2026-06-09 15:15:00 ERROR yfinance Failed to get ticker 'ETH-USD' reason: Expecting value: line 1 column 1 (char 0)
+2026-06-09 15:15:01 ERROR yfinance $ETH-USD: possibly delisted; No price data found  (period=1d)
+2026-06-09 15:15:01 ERROR yfinance Failed to get ticker 'ETH-USD' reason: Expecting value: line 1 column 1 (char 0)
+2026-06-09 15:15:02 ERROR yfinance $ETH-USD: possibly delisted; No price data found  (period=1d)
+2026-06-09 15:15:03 ERROR yfinance Failed to get ticker 'ETH-USD' reason: Expecting value: line 1 column 1 (char 0)
+2026-06-09 15:15:03 ERROR yfinance $ETH-USD: possibly delisted; No price data found  (period=1d)
+2026-06-09 15:15:03 WARNING market_data Provider yfinance failed for ETH-USD
+2026-06-09 15:15:03 INFO market_data Market data found 1660.195 for ETH-USD using coinbase
+2026-06-09 15:15:03 ERROR yfinance Failed to get ticker 'ETH-USD' reason: Expecting value: line 1 column 1 (char 0)
+2026-06-09 15:15:04 ERROR yfinance $ETH-USD: possibly delisted; No price data found  (period=30d)
+2026-06-09 15:15:04 ERROR yfinance Failed to get ticker 'SOL-USD' reason: Expecting value: line 1 column 1 (char 0)
+2026-06-09 15:15:04 ERROR yfinance $SOL-USD: possibly delisted; No price data found  (period=1d)
+2026-06-09 15:15:05 ERROR yfinance Failed to get ticker 'SOL-USD' reason: Expecting value: line 1 column 1 (char 0)
+2026-06-09 15:15:05 ERROR yfinance $SOL-USD: possibly delisted; No price data found  (period=1d)
+2026-06-09 15:15:06 ERROR yfinance Failed to get ticker 'SOL-USD' reason: Expecting value: line 1 column 1 (char 0)
+2026-06-09 15:15:07 ERROR yfinance $SOL-USD: possibly delisted; No price data found  (period=1d)
+2026-06-09 15:15:07 WARNING market_data Provider yfinance failed for SOL-USD
+2026-06-09 15:15:07 INFO market_data Market data found 65.52 for SOL-USD using coinbase
+2026-06-09 15:15:07 ERROR yfinance Failed to get ticker 'SOL-USD' reason: Expecting value: line 1 column 1 (char 0)
+2026-06-09 15:15:07 ERROR yfinance $SOL-USD: possibly delisted; No price data found  (period=30d)
+2026-06-09 15:15:07 ERROR yfinance Failed to get ticker 'DOGE-USD' reason: Expecting value: line 1 column 1 (char 0)
+2026-06-09 15:15:08 ERROR yfinance $DOGE-USD: possibly delisted; No price data found  (period=1d)
+2026-06-09 15:15:08 ERROR yfinance Failed to get ticker 'DOGE-USD' reason: Expecting value: line 1 column 1 (char 0)
+2026-06-09 15:15:09 ERROR yfinance $DOGE-USD: possibly delisted; No price data found  (period=1d)
+2026-06-09 15:15:10 ERROR yfinance Failed to get ticker 'DOGE-USD' reason: Expecting value: line 1 column 1 (char 0)
+2026-06-09 15:15:10 ERROR yfinance $DOGE-USD: possibly delisted; No price data found  (period=1d)
+2026-06-09 15:15:10 WARNING market_data Provider yfinance failed for DOGE-USD
+2026-06-09 15:15:10 INFO market_data Market data found 0.085275 for DOGE-USD using coinbase
+2026-06-09 15:15:10 ERROR yfinance Failed to get ticker 'DOGE-USD' reason: Expecting value: line 1 column 1 (char 0)
+2026-06-09 15:15:11 ERROR yfinance $DOGE-USD: possibly delisted; No price data found  (period=30d)

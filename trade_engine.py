@@ -133,11 +133,11 @@ class TradingBot:
 
         return True
 
-    def _place_trade(self, signal: TradeSignal, account_value: float) -> None:
+    def _place_trade(self, signal: TradeSignal, account_value: float) -> bool:
         quantity = self.risk_manager.calculate_quantity(account_value, signal.current_price, signal.stop_loss)
         if quantity is None or quantity <= 0.0:
             logger.info("Trade skipped due to sizing constraints for %s", signal.symbol)
-            return
+            return False
 
         if not self.config.enable_live_trading:
             logger.info("Paper trade: %s %s qty %.6f", signal.recommendation, signal.symbol, quantity)
@@ -164,7 +164,7 @@ class TradingBot:
                 }
             )
             self.alert_manager.notify_trade_opened(signal, paper_mode=True)
-            return
+            return True
 
         logger.warning(self.config.live_trading_warning)
         self.broker.login()
@@ -191,6 +191,7 @@ class TradingBot:
             }
         )
         self.alert_manager.notify_trade_opened(signal, paper_mode=False)
+        return True
 
     def _close_trade(self, trade: dict, exit_price: float, reason: str) -> None:
         if trade["status"] != "open":
@@ -277,10 +278,14 @@ class TradingBot:
                 summary["signals"].append(detail)
                 continue
 
-            self._place_trade(signal, account_value)
-            detail["status"] = "placed"
+            placed = self._place_trade(signal, account_value)
+            if placed:
+                detail["status"] = "placed"
+                summary["trades_placed"] += 1
+            else:
+                detail["status"] = "size_constrained"
+                detail["reason"] = "order quantity too small or invalid sizing"
             summary["signals"].append(detail)
-            summary["trades_placed"] += 1
 
         self._record_snapshot(account_value, buying_power, unrealized_pl, 0.0)
         self.last_cycle_summary = summary

@@ -78,6 +78,15 @@ def main() -> None:
     else:
         st.write("No open positions.")
 
+    if cycle_summary:
+        st.subheader("Cycle Summary")
+        st.write(
+            f"Evaluated {cycle_summary.get('evaluated', 0)} symbols, "
+            f"placed {cycle_summary.get('trades_placed', 0)} trade(s)."
+        )
+        if cycle_summary.get("signals"):
+            st.dataframe(cycle_summary["signals"])
+
     st.subheader("Recent Trades")
     st.dataframe(trades)
 

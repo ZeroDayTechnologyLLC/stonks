@@ -35,7 +35,7 @@ class AppConfig:
     watchlist: list[str] = field(default_factory=list)
     supported_symbols: list[str] = field(default_factory=lambda: ["BTC-USD", "ETH-USD", "SOL-USD", "DOGE-USD"])
     enabled_strategies: list[str] = field(default_factory=lambda: ["momentum_breakout"])
-    confidence_threshold: float = 70.0
+    confidence_threshold: float = 60.0
     max_risk_pct: float = 0.01
     max_position_pct: float = 0.25
     daily_loss_limit_pct: float = 0.05
@@ -63,7 +63,7 @@ class AppConfig:
             supported_symbols=parse_list(os.getenv("SUPPORTED_SYMBOLS")) or ["BTC-USD", "ETH-USD", "SOL-USD", "DOGE-USD"],
             enabled_strategies=parse_list(os.getenv("ENABLED_STRATEGIES")) or ["momentum_breakout"],
             market_data_provider=os.getenv("MARKET_DATA_PROVIDER", "auto").strip().lower() or "auto",
-            confidence_threshold=parse_float(os.getenv("CONFIDENCE_THRESHOLD"), 70.0),
+            confidence_threshold=parse_float(os.getenv("CONFIDENCE_THRESHOLD"), 60.0),
             max_risk_pct=parse_float(os.getenv("MAX_RISK_PCT"), 0.01),
             max_position_pct=parse_float(os.getenv("MAX_POSITION_PCT"), 0.25),
             daily_loss_limit_pct=parse_float(os.getenv("DAILY_LOSS_LIMIT_PCT"), 0.05),

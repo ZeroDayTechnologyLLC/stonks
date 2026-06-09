@@ -99,7 +99,7 @@ class MomentumBreakoutStrategy(TradingStrategy):
         recommendation = "avoid"
         if confidence >= 85 and breakout:
             recommendation = "buy"
-        elif confidence >= 70:
+        elif confidence >= 60:
             recommendation = "watch"
 
         stop_loss = round(current_price * 0.96, 6)

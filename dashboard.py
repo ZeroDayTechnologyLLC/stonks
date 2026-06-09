@@ -49,6 +49,15 @@ def main() -> None:
     positions = broker.get_positions()
     trades = db.load_trade_history(limit=100)
 
+    st.sidebar.header("Controls")
+    if st.sidebar.button("Run one scan cycle"):
+        with st.spinner("Running one trading cycle..."):
+            bot.run_cycle()
+        st.success("Cycle complete. Refresh to see updates.")
+        account = broker.get_account_summary()
+        positions = broker.get_positions()
+        trades = db.load_trade_history(limit=100)
+
     cols = st.columns(3)
     cols[0].metric("Account Value", f"${account['account_value']:.2f}")
     cols[1].metric("Buying Power", f"${account['buying_power']:.2f}")
@@ -62,12 +71,6 @@ def main() -> None:
 
     st.subheader("Recent Trades")
     st.dataframe(trades)
-
-    st.sidebar.header("Controls")
-    if st.sidebar.button("Run one scan cycle"):
-        with st.spinner("Running one trading cycle..."):
-            bot.run_cycle()
-            st.success("Cycle complete. Refresh to see updates.")
 
     st.sidebar.markdown("### Watchlist")
     st.sidebar.write(config.watchlist or config.supported_symbols)

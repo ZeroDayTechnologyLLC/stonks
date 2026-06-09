@@ -163,6 +163,15 @@ class Database:
             )
             return cursor.fetchall()
 
+    def load_open_trades(self) -> list[dict[str, Any]]:
+        with sqlite3.connect(self.path) as connection:
+            connection.row_factory = _dict_factory
+            cursor = connection.cursor()
+            cursor.execute(
+                "SELECT * FROM trades WHERE status = 'open' ORDER BY opened_at DESC",
+            )
+            return cursor.fetchall()
+
     def record_order_log(self, operation: str, detail: str, symbol: Optional[str] = None) -> None:
         with sqlite3.connect(self.path) as connection:
             cursor = connection.cursor()

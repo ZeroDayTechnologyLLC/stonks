@@ -46,17 +46,27 @@ def main() -> None:
     )
 
     account = broker.get_account_summary()
-    positions = broker.get_positions()
     trades = db.load_trade_history(limit=100)
+    if config.enable_live_trading:
+        positions = broker.get_positions()
+    else:
+        positions = db.load_open_trades()
 
     st.sidebar.header("Controls")
     if st.sidebar.button("Run one scan cycle"):
+        trade_count_before = len(db.load_trade_history(limit=1000))
         with st.spinner("Running one trading cycle..."):
             bot.run_cycle()
-        st.success("Cycle complete. Refresh to see updates.")
-        account = broker.get_account_summary()
-        positions = broker.get_positions()
         trades = db.load_trade_history(limit=100)
+        trade_count_after = len(db.load_trade_history(limit=1000))
+        new_trades = trade_count_after - trade_count_before
+        account = broker.get_account_summary()
+        positions = broker.get_positions() if config.enable_live_trading else db.load_open_trades()
+
+        if new_trades > 0:
+            st.success(f"Cycle complete. {new_trades} new trade(s) recorded.")
+        else:
+            st.info("Cycle complete. No trades were placed this cycle.")
 
     cols = st.columns(3)
     cols[0].metric("Account Value", f"${account['account_value']:.2f}")
